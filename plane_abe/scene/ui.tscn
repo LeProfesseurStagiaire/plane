@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://script/ui.gd" type="Script" id=1]
+[ext_resource path="res://assets/progress_bar.png" type="Texture" id=2]
+[ext_resource path="res://assets/fire.png" type="Texture" id=3]
+[ext_resource path="res://assets/plane.png" type="Texture" id=4]
+[ext_resource path="res://assets/select_end.png" type="Texture" id=5]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureProgress" type="TextureProgress" parent="CanvasLayer"]
+margin_left = 22.7013
+margin_top = 28.2608
+margin_right = 1312.7
+margin_bottom = 68.2608
+rect_scale = Vector2( 0.331499, 0.331499 )
+texture_progress = ExtResource( 2 )
+
+[node name="fire" type="Sprite" parent="CanvasLayer"]
+position = Vector2( 447.985, 25.14 )
+scale = Vector2( 0.216637, 0.216637 )
+texture = ExtResource( 3 )
+
+[node name="plane" type="Sprite" parent="CanvasLayer"]
+position = Vector2( 30, 30 )
+rotation = 1.57079
+scale = Vector2( 0.562554, 0.562554 )
+texture = ExtResource( 4 )
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+margin_right = 600.0
+margin_bottom = 825.0
+rect_scale = Vector2( 0.800337, 0.800337 )
+texture = ExtResource( 5 )
+expand = true
+
+[node name="p_death" type="Node2D" parent="CanvasLayer"]
+visible = false
+
+[node name="Label" type="Label" parent="CanvasLayer/p_death"]
+margin_left = 81.7003
+margin_top = 323.001
+margin_right = 121.7
+margin_bottom = 337.001
+text = "retry"
+
+[node name="Label2" type="Label" parent="CanvasLayer/p_death"]
+margin_left = 369.551
+margin_top = 323.001
+margin_right = 409.551
+margin_bottom = 337.001
+text = "quit"
