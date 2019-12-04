@@ -10,10 +10,16 @@ var rotation_speed = 1
 var game_start
 
 func _process(delta):
-	if Input.is_action_just_pressed("left") and dir != "left":
-		dir = "left"
-	if Input.is_action_just_pressed("right") and dir != "right":
-		dir = "right"
+	if Input.is_action_just_pressed("action") && get_tree().get_current_scene():
+		if dir == "left" :
+			dir = "right"
+		else:
+			dir = "left"
+			
+#	if Input.is_action_just_pressed("left") and dir != "left":
+#		dir = "left"
+#	if Input.is_action_just_pressed("right") and dir != "right":
+#		dir = "right"
 	if dir :
 		max_left = get_parent().get_node("left")
 		max_right = get_parent().get_node("right")

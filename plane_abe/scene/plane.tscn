@@ -1,11 +1,10 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://script/plane_main.gd" type="Script" id=1]
 [ext_resource path="res://script/plane.gd" type="Script" id=2]
-[ext_resource path="res://assets/smoke.png" type="Texture" id=3]
-[ext_resource path="res://assets/plane.png" type="Texture" id=4]
+[ext_resource path="res://assets/plane.png" type="Texture" id=3]
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=1]
 resource_name = "die"
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -34,37 +33,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Gradient" id=1]
-offsets = PoolRealArray( 0, 0.442478, 1 )
-colors = PoolColorArray( 0.371094, 0.7789, 1, 0, 0.281158, 0.924035, 0.972656, 1, 0.507812, 1, 0.953857, 0 )
-
-[sub_resource type="GradientTexture" id=2]
-gradient = SubResource( 1 )
-
-[sub_resource type="Curve" id=3]
-max_value = 177.0
-_data = [ Vector2( 0.00572312, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=4]
-curve = SubResource( 3 )
-
-[sub_resource type="ParticlesMaterial" id=5]
-flag_disable_z = true
-spread = 169.09
-gravity = Vector3( 0, 300, 0 )
-initial_velocity = 53.03
-angular_velocity = 32.73
-angular_velocity_random = 1.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-angle = 720.0
-angle_random = 1.0
-scale = 0.2
-scale_random = 0.35
-scale_curve = SubResource( 4 )
-color_ramp = SubResource( 2 )
-
-[sub_resource type="Shader" id=6]
+[sub_resource type="Shader" id=7]
 code = "shader_type canvas_item;
 render_mode unshaded;
  
@@ -91,16 +60,16 @@ void fragment()
     COLOR = vec4(final_color, clamp(alpha, 0.0, 1.0));
 }"
 
-[sub_resource type="ShaderMaterial" id=7]
-shader = SubResource( 6 )
+[sub_resource type="ShaderMaterial" id=8]
+shader = SubResource( 7 )
 shader_param/width = 3.212
 shader_param/outline_color = null
 
-[sub_resource type="RectangleShape2D" id=8]
-extents = Vector2( 30.0274, 29.5689 )
+[sub_resource type="CapsuleShape2D" id=9]
+radius = 10.6053
+height = 7.39303
 
 [node name="plane" type="Node2D"]
-scale = Vector2( 0.825616, 0.825616 )
 z_index = 2
 script = ExtResource( 1 )
 
@@ -112,34 +81,27 @@ position = Vector2( 200, -70 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 0, -220 )
+current = true
 drag_margin_h_enabled = false
 drag_margin_v_enabled = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/die = SubResource( 9 )
+anims/die = SubResource( 1 )
 
 [node name="plane_body" type="Node2D" parent="."]
 script = ExtResource( 2 )
 
-[node name="water" type="Particles2D" parent="plane_body"]
-position = Vector2( 0, 21.9454 )
-emitting = false
-amount = 40
-one_shot = true
-local_coords = false
-process_material = SubResource( 5 )
+[node name="s" type="Sprite" parent="plane_body"]
+material = SubResource( 8 )
+scale = Vector2( 0.362454, 0.362454 )
 texture = ExtResource( 3 )
 
-[node name="s" type="Sprite" parent="plane_body"]
-material = SubResource( 7 )
-scale = Vector2( 0.704587, 0.704587 )
-texture = ExtResource( 4 )
-
-[node name="area" type="Area2D" parent="plane_body"]
-editor/display_folded = true
+[node name="area" type="Area2D" parent="plane_body" groups=[
+"player",
+]]
 
 [node name="col" type="CollisionShape2D" parent="plane_body/area"]
-shape = SubResource( 8 )
+shape = SubResource( 9 )
 
 [node name="Tween" type="Tween" parent="plane_body"]
 [connection signal="area_entered" from="plane_body/area" to="." method="_on_area_area_entered"]

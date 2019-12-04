@@ -1,10 +1,51 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://script/ui.gd" type="Script" id=1]
 [ext_resource path="res://assets/progress_bar.png" type="Texture" id=2]
 [ext_resource path="res://assets/fire.png" type="Texture" id=3]
 [ext_resource path="res://assets/plane.png" type="Texture" id=4]
 [ext_resource path="res://assets/select_end.png" type="Texture" id=5]
+[ext_resource path="res://assets/grass.png" type="Texture" id=6]
+
+[sub_resource type="Animation" id=3]
+resource_name = "new_stape"
+tracks/0/type = "value"
+tracks/0/path = NodePath("TextureRect2:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.666667 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float brightness = 0.8;
+uniform float contrast = 1.5;
+uniform float saturation = 1.8;
+
+void fragment() {
+
+	vec3 c = textureLod(SCREEN_TEXTURE, SCREEN_UV, 0.0).rgb;
+	
+	c.rgb = mix(vec3(0.0), c.rgb, brightness);
+	c.rgb = mix(vec3(0.5), c.rgb, contrast);
+	c.rgb = mix(vec3(dot(vec3(1.0), c.rgb) * 0.33333), c.rgb, saturation);
+	
+	COLOR.rgb = c;
+}
+"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/brightness = 0.8
+shader_param/contrast = 1.5
+shader_param/saturation = 1.8
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -39,19 +80,33 @@ rect_scale = Vector2( 0.800337, 0.800337 )
 texture = ExtResource( 5 )
 expand = true
 
+[node name="stape" type="Label" parent="CanvasLayer"]
+margin_left = 144.983
+margin_top = 34.9467
+margin_right = 203.983
+margin_bottom = 48.9467
+rect_scale = Vector2( 3.8018, 3.8018 )
+text = "stape : 1"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+anims/new_stape = SubResource( 3 )
+
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0 )
+material = SubResource( 2 )
+margin_left = -516.797
+margin_top = -217.29
+margin_right = 1150.2
+margin_bottom = 893.71
+texture = ExtResource( 6 )
+
 [node name="p_death" type="Node2D" parent="CanvasLayer"]
 visible = false
 
 [node name="Label" type="Label" parent="CanvasLayer/p_death"]
-margin_left = 81.7003
-margin_top = 323.001
-margin_right = 121.7
-margin_bottom = 337.001
+margin_left = 162.337
+margin_top = 300.195
+margin_right = 202.337
+margin_bottom = 314.195
+rect_scale = Vector2( 4.31627, 4.31627 )
 text = "retry"
-
-[node name="Label2" type="Label" parent="CanvasLayer/p_death"]
-margin_left = 369.551
-margin_top = 323.001
-margin_right = 409.551
-margin_bottom = 337.001
-text = "quit"

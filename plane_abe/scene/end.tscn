@@ -1,0 +1,13 @@
+[gd_scene format=2]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="."]
+margin_left = 31.6455
+margin_top = 239.099
+margin_right = 80.6455
+margin_bottom = 253.099
+rect_scale = Vector2( 8.3847, 8.3847 )
+text = "you win"
